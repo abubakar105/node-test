@@ -92,7 +92,8 @@ Router.post("/Login", async (req, res) => {
   }
 });
 
-Router.post("/Refresh", async (res, req) => {
+// FIXED: Changed (res, req) to (req, res)
+Router.post("/Refresh", async (req, res) => {
   const { refreshToken } = req.body;
   if (!refreshToken)
     return res.status(500).json({ message: "refreshToken required" });
@@ -100,7 +101,7 @@ Router.post("/Refresh", async (res, req) => {
   jwt.verify(refreshToken, Refresh_Token_Key, (err, user) => {
     if (err) return res.status(500).json({ error: "invalid refresh token" });
 
-    const accessToken = jwt.sign({ id: user._id }, Access_Token_Key, {
+    const accessToken = jwt.sign({ id: user.id }, Access_Token_Key, {
       expiresIn: "15m",
     });
     res.status(200).json({ accessToken });
