@@ -27,7 +27,7 @@ const corsOptions = {
       'http://localhost:5174', 
       'http://localhost:3000',
       process.env.FRONTEND_URL,
-      'https://your-netlify-app.netlify.app' // Your Netlify URL
+      'https://dashing-figolla-351c5f.netlify.app' // Your Netlify URL
     ];
     
     if (allowedOrigins.includes(origin)) {
