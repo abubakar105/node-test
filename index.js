@@ -12,8 +12,30 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // CORS configuration for production
 
+// const corsOptions = {
+//   origin: process.env.FRONTEND_URL || 'http://localhost:5174',
+//   credentials: true,
+//   optionsSuccessStatus: 200
+// };
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5174',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:5174', 
+      'http://localhost:3000',
+      process.env.FRONTEND_URL,
+      'https://your-netlify-app.netlify.app' // Your Netlify URL
+    ];
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
